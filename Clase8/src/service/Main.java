@@ -51,6 +51,7 @@ public class Main {
             Thread hilo4 = new Thread(estudianteHilo4);
             hilo4.start();
             Thread.sleep(10000);
+            
 
 //            Thread.currentThread().interrupt();
             if (Thread.interrupted()) {
