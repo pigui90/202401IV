@@ -14,5 +14,8 @@
     <body>
         <h1>Hello World!</h1>
         <a href="ListaServlet">Lista</a>
+        <br>
+        <a href="UsuarioFormulario.jsp">Formulario Usuario</a>
+
     </body>
 </html>

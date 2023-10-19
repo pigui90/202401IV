@@ -13,5 +13,13 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+        <h1>HashMap Ejemplo</h1>
+        <form action="UsuarioServlet" method="GET">
+            <input type="hidden" name="action" value="addUser">
+            Id <input type="text" name="idUsuario"><br>
+            Nombre <input type="text" name="nombre"><br>
+            Password <input type="text" name="password"><br>
+            <input type="submit" value="Agregar Usuario">
+        </form>
     </body>
 </html>

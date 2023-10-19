@@ -38,18 +38,20 @@ public class UsuarioServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         Usuario usuario;
 
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UsuarioServlet</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UsuarioServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String action = request.getParameter("action");
+
+        if (action != null && action.equals("addUser")) {
+            int id = Integer.parseInt(request.getParameter("idUsuario"));
+            String nombreUsuario = request.getParameter("nombre");
+            String password = request.getParameter("password");
+            usuario = new Usuario(id, nombreUsuario, password);
+            usuarios.add(usuario);
         }
+        
+        request.setAttribute("usuarios", usuarios);
+        
+        request.getRequestDispatcher("UsuarioLista.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
