@@ -11,17 +11,30 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
         <title>JSP Page</title>
     </head>
     <body>
+
         <h1>Lista de usuarios!</h1>
-        <ul>
+        <table>
+            <tr>
+                <th>ID</th><th>NOMBRE</th><th>PASS</th><th>Eliminar</th>
+            </tr>
+
             <% 
                 List<Usuario> listaEjemplo = (List<Usuario>) request.getAttribute("usuarios");
                 for (Usuario elemento : listaEjemplo) {
             %>
-            <li><%= elemento %></li>
-                <% } %>
-        </ul>
+            <tr>
+                <td><%= elemento.getId() %></td>
+                <td><%= elemento.getNombreUsuario() %></td>
+                <td><%= elemento.getPassword() %></td>
+                <td><a href="UsuarioServlet?action=eliminar&id=<%= elemento.getId() %>">Eliminar</a></td>
+            </tr>
+            <% } %>
+
+        </table>
+        <a href="UsuarioFormulario.jsp">Volver al formulario</a>
     </body>
 </html>

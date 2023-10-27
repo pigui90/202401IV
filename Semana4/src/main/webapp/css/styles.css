@@ -7,3 +7,86 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Author     : Sergio
 */
 
+/* Estilos generales de la tabla */
+table {
+    border-collapse: collapse;
+    border: cornflowerblue;
+    width: 100%;
+    max-width: 800px; /* Personaliza el ancho máximo de la tabla según tus necesidades */
+    margin: 0 auto; /* Centra la tabla en el contenedor */
+}
+
+/* Estilos para las filas impares (resaltado) */
+tr:nth-child(odd) {
+    background-color: #f2f2f2; /* Color de fondo para las filas impares */
+}
+
+/* Estilos para las filas pares */
+tr:nth-child(even) {
+    background-color: #ffffff; /* Color de fondo para las filas pares (blanco) */
+}
+
+/* Estilos para las celdas de encabezado */
+th {
+    background-color: #007bff; /* Color de fondo del encabezado */
+    color: #ffffff; /* Color del texto del encabezado */
+    font-weight: bold; /* Texto en negritas */
+    padding: 10px;
+    text-align: left; /* Alineación del texto en el encabezado */
+    border: 1px solid #ccc; /* Borde alrededor de las celdas de encabezado */
+}
+
+/* Estilos para las celdas de datos */
+td {
+    padding: 10px;
+    border: 1px solid #ccc; /* Borde alrededor de las celdas de datos */
+}
+
+/* Estilo al pasar el cursor por encima de las filas */
+tr:hover {
+    background-color: #c0c0c0; /* Color de fondo cuando se pasa el cursor por encima de una fila */
+}
+
+/* Estilos generales del formulario */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #f7e0c5; /* Color de fondo cálido */
+    padding: 20px;
+    border: 1px solid #e2b894;
+    border-radius: 10px;
+}
+
+/* Estilos para etiquetas de formulario */
+label {
+    display: block;
+    font-weight: bold;
+    color: #8b4513; /* Color de etiqueta cálido */
+    margin-bottom: 5px;
+}
+
+/* Estilos para campos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #d2a679; /* Borde cálido */
+    border-radius: 5px;
+}
+
+/* Estilos para botones */
+button {
+    background-color: #e08e4f; /* Color de botón cálido */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Estilos para botones al pasar el cursor */
+button:hover {
+    background-color: #d0793f; /* Cambio de color al pasar el cursor */
+}

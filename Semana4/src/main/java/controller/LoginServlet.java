@@ -9,20 +9,18 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import model.Usuario;
 
 /**
  *
  * @author Sergio
  */
-@WebServlet(name = "UsuarioServlet", urlPatterns = {"/UsuarioServlet"})
-public class UsuarioServlet extends HttpServlet {
+@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
+public class LoginServlet extends HttpServlet {
 
-    List<Usuario> usuarios = new ArrayList<>();
+    int id = 0;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,35 +33,41 @@ public class UsuarioServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        Usuario usuario;
+        HttpSession session = request.getSession();
+        String user = (String) request.getParameter("username");
+        String pass = (String) request.getParameter("password");
+        if (user.equals("admin") && pass.equals("admin")) {
+            id++;
 
-        String action = request.getParameter("action");
-        if (action != null) {
-            if (action.equals("addUser")) {
-                int id = Integer.parseInt(request.getParameter("idUsuario"));
-                String nombreUsuario = request.getParameter("nombre");
-                String password = request.getParameter("password");
-                usuario = new Usuario(id, nombreUsuario, password);
-                usuarios.add(usuario);
-            } else {
-                if (action.equals("eliminar")) {
-                    String id = request.getParameter("id");
+//            session.setAttribute("nombreUsuario", "usuario_");
 
-                    for (Usuario usuario1 : usuarios) {
-                        if (usuario1.getId() == Integer.parseInt(id)) {
-                            usuarios.remove(usuario1);
-                            break;
-                        }
-                    }
-                }
+//        session.setAttribute("nombreUsuario", "usuario_" + Math.random());
+            session.setAttribute("nombreUsuario", "usuario_" + id);
+            response.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = response.getWriter()) {
+                /* TODO output your page here. You may use following sample code. */
+
+                String nombreUsuario = (String) session.getAttribute("nombreUsuario");
+
+                out.println("<!DOCTYPE html>");
+                out.println("<html>");
+                out.println("<head>");
+                out.println("<title>Servlet LoginServlet</title>");
+                out.println("</head>");
+                out.println("<body>");
+                out.println("<h1>Session LoginServlet es " + nombreUsuario + "</h1>");
+                out.println("<a href=index.jsp>index</a>");
+                out.println("</body>");
+                out.println("</html>");
             }
+        } else {
+            request.setAttribute("userError", user);
+            request.getRequestDispatcher("login-error.jsp").forward(request, response);
+
+//            session.setAttribute("userErrorSession", user);
+//            response.sendRedirect("login-error.jsp");
+
         }
-
-        request.setAttribute("usuarios", usuarios);
-
-        request.getRequestDispatcher("UsuarioLista.jsp").forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

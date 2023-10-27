@@ -9,16 +9,18 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+        <title>Usuarios</title>
+
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <h1>HashMap Ejemplo</h1>
+        <h1>Formulario Usuarios</h1>
         <form action="UsuarioServlet" method="GET">
             <input type="hidden" name="action" value="addUser">
-            Id <input type="text" name="idUsuario"><br>
-            Nombre <input type="text" name="nombre"><br>
-            Password <input type="text" name="password"><br>
+            <label for="idUsuario">Id:</label> <input type="text" name="idUsuario"><br>
+            <label for="nombre">Nombre:</label> <input type="text" name="nombre"><br>
+            <label for="password">Password:</label> <input type="text" name="password"><br>
             <input type="submit" value="Agregar Usuario">
         </form>
     </body>
