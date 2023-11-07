@@ -10,8 +10,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 /**
  *
@@ -20,6 +28,7 @@ import java.io.PrintWriter;
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
 
+    File archivo = new File("user.txt");
     int id = 0;
 
     /**
@@ -33,41 +42,94 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String user = (String) request.getParameter("username");
-        String pass = (String) request.getParameter("password");
-        if (user.equals("admin") && pass.equals("admin")) {
-            id++;
+        try {
 
-//            session.setAttribute("nombreUsuario", "usuario_");
+            String inicio = (String) request.getParameter("inicio");
+            String register = (String) request.getParameter("register");
+            HttpSession session = request.getSession();
+            String user = (String) request.getParameter("username");
+            String pass = (String) request.getParameter("password");
+            if (inicio != null) {
 
-//        session.setAttribute("nombreUsuario", "usuario_" + Math.random());
-            session.setAttribute("nombreUsuario", "usuario_" + id);
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-                /* TODO output your page here. You may use following sample code. */
+                if (!archivo.exists()) {
+                    archivo.createNewFile();
+                }
 
-                String nombreUsuario = (String) session.getAttribute("nombreUsuario");
+                FileReader fileReader = new FileReader(archivo);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                Boolean flag = false;
+                String linea = bufferedReader.readLine();
+                String passEncrip = convertirdorHexMD5(pass);
+                while (linea != null) {
+                    String[] secciones = linea.split(";");
+                    String passtxt = secciones[1];
+                    if (secciones[0].equals(user) && passtxt.equals(passEncrip)) {
+                        flag = true;
+                        break;
+                    }
+                    linea = bufferedReader.readLine();
+                }
 
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Servlet LoginServlet</title>");
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1>Session LoginServlet es " + nombreUsuario + "</h1>");
-                out.println("<a href=index.jsp>index</a>");
-                out.println("</body>");
-                out.println("</html>");
-            }
-        } else {
-            request.setAttribute("userError", user);
-            request.getRequestDispatcher("login-error.jsp").forward(request, response);
+                if (flag) {
+                    id++;
+
+//                  session.setAttribute("nombreUsuario", "usuario_");
+//                  session.setAttribute("nombreUsuario", "usuario_" + Math.random());
+                    session.setAttribute("nombreUsuario", "usuario_" + id);
+                    response.setContentType("text/html;charset=UTF-8");
+                    try (PrintWriter out = response.getWriter()) {
+                        /* TODO output your page here. You may use following sample code. */
+
+                        String nombreUsuario = (String) session.getAttribute("nombreUsuario");
+
+                        out.println("<!DOCTYPE html>");
+                        out.println("<html>");
+                        out.println("<head>");
+                        out.println("<title>Servlet LoginServlet</title>");
+                        out.println("</head>");
+                        out.println("<body>");
+                        out.println("<h1>Session LoginServlet es " + nombreUsuario + "</h1>");
+                        out.println("<a href=index.jsp>index</a>");
+                        out.println("</body>");
+                        out.println("</html>");
+                    }
+                } else {
+                    request.setAttribute("userError", user);
+                    request.getRequestDispatcher("login-error.jsp").forward(request, response);
 
 //            session.setAttribute("userErrorSession", user);
 //            response.sendRedirect("login-error.jsp");
+                }
+            } else {
+                if (register != null) {
+                    if (!archivo.exists()) {
+                        archivo.createNewFile();
+                    } else {
+                        try (FileWriter fileWriter = new FileWriter(archivo, true); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+                            String passEncrip = convertirdorHexMD5(pass);
+                            bufferedWriter.write(user + ";" + passEncrip);
+                            bufferedWriter.newLine();
+                        }
+                    }
+                    response.sendRedirect("login.jsp");
+                }
+            }
+        } catch (ServletException | IOException | NoSuchAlgorithmException e) {
+            System.err.print("Error");
+        }
+    }
+
+    public String convertirdorHexMD5(String str) throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] messageDigest = md.digest(str.getBytes());
+
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : messageDigest) {
+            hexString.append(String.format("%02x", b));
 
         }
+        return hexString.toString();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
