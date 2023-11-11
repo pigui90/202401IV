@@ -56,6 +56,7 @@ public class LoginServlet extends HttpServlet {
 
             } else {
                 if (inicio != null) {
+                    
                     if (buscarUsuario(email, pass)) {
                         request.getRequestDispatcher("bienvenida.jsp").forward(request, response);
                     } else {
