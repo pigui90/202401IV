@@ -47,7 +47,27 @@ body {
 }
 
 .cerrar-sesion a {
-    color: #007bff;
-    text-decoration: none;
+    color: black;
+    text-decoration: #fff;
 }
 
+/* Estilo del contenedor principal */
+.contenido-principal {
+    background-color: #f7e0c5; /* Color de fondo */
+    border: 1px solid #ccc; /* Borde del contenedor */
+    padding: 20px; /* Espaciado interno */
+    margin: 20px; /* Margen exterior */
+    max-width: 800px; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centrar el contenedor en la página */
+}
+
+/* Estilo de encabezado dentro del contenedor principal */
+.contenido-principal h1 {
+    color: #333; /* Color del texto del encabezado */
+}
+
+/* Estilo de párrafos dentro del contenedor principal */
+.contenido-principal p {
+    color: #666; /* Color del texto del párrafo */
+    line-height: 1.5; /* Altura de línea para una mejor legibilidad */
+}

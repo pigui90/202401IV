@@ -4,11 +4,6 @@
  */
 package cr.ac.ulatina.semana9.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -93,12 +88,12 @@ public class UsuarioJDBC {
         ps.setString(2, pass);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            usuario = establecerLibro(rs);
+            usuario = establecerUsuario(rs);
         }
         return usuario;
     }
 
-    private Usuario establecerLibro(ResultSet rs) {
+    private Usuario establecerUsuario(ResultSet rs) {
         Usuario usuario = new Usuario();
         try {
             usuario.setIdUsuario(rs.getLong(1));
