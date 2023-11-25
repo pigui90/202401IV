@@ -27,13 +27,23 @@ public class ConexionBD {
     private ConexionBD() {
         try {
             host = "127.0.0.1";
-            user = "root";
+//            user = "root";
+//            password = "root";
+            user = "sa";
             password = "root";
             bd = "clasesprogra";
-            driver = "com.mysql.cj.jdbc.Driver";
+            driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+//          driver = "com.mysql.cj.jdbc.Driver";
+//            driver = "com.mysql.cj.jdbc.Driver";
+
             Class.forName(driver);
-            String dir = "jdbc:mysql://" + host + ":3306/" + bd + "?" + "autoReconnect=true&useSSL=false";
+//            String dir = "jdbc:mysql://" + host + ":3306/" + bd + "?" + "autoReconnect=true&useSSL=false";
+//            String url = "jdbc:sqlserver://" + host + ":1433;databaseName=" + bd + ";integratedSecurity=true";
+            String dir = "jdbc:sqlserver://" + host + ":1433;databaseName=" + bd;
+
+            
             con = DriverManager.getConnection(dir, user, password);
+//            con = DriverManager.getConnection(url);
         } catch (SQLException ex) {
             Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -56,7 +66,7 @@ public class ConexionBD {
     public Connection getCon() {
         return con;
     }
-    
+
     public void closeConexion() {
         try {
             con.close();

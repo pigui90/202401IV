@@ -100,6 +100,27 @@ public class EstudianteJDBC {
         }
         return estudiantes;
     }
+    
+    public boolean delete(int id){
+         String sql = "DELETE FROM estudiante WHERE idEstudiante = ?";
+        try {
+
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, id);
+           
+            int rowcount = ps.executeUpdate();
+            if (rowcount == 1) {
+                return true;
+            } else {
+                throw new SQLException("El 'delete' no ocurrio, valor de: " + rowcount);
+            }
+            
+
+        } catch (SQLException ex) {
+            System.err.println("ERROR:" + ex.getMessage());
+        }
+        return false;
+    }
 
     private Estudiante establecerEstudiante(ResultSet rs) {
         Estudiante estudiante = new Estudiante();
@@ -115,4 +136,6 @@ public class EstudianteJDBC {
         return estudiante;
 
     }
+    
+    
 }

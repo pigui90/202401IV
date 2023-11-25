@@ -29,15 +29,19 @@ public class UsuarioJDBC {
     public UsuarioJDBC() {
         try {
             host = "127.0.0.1";
-            user = "root";
-            password = "root";
+//            user = "root";
+//            password = "root";
             bd = "clasesprogra";
-            driver = "com.mysql.cj.jdbc.Driver";
+            user = "sa";
+            password = "root";
+            driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+//            driver = "com.mysql.cj.jdbc.Driver";
             //String dir = "jdbc:mysql://"+host+":3306/?user="+user+"";
             Class.forName(driver);
 //            String dir = "jdbc:mysql://"+host+":3306/clasesprogra?"+"zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC&verifyServerCertificate="+Boolean.FALSE.toString()+"&useSSL="+Boolean.FALSE.toString()+" ["+user+" on Default schema]";
-            String dir = "jdbc:mysql://" + host + ":3306/" + bd + "?" + "autoReconnect=true&useSSL=false";
+//            String dir = "jdbc:mysql://" + host + ":3306/" + bd + "?" + "autoReconnect=true&useSSL=false";
 //            String dir = "jdbc:mysql://localhost:3306/mysql?zeroDateTimeBehavior=CONVERT_TO_NULL [root on Default schema]";
+            String dir = "jdbc:sqlserver://" + host + ":1433;databaseName=" + bd;
 
             con = DriverManager.getConnection(dir, user, password);
         } catch (SQLException | ClassNotFoundException ex) {

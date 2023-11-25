@@ -11,7 +11,8 @@
 <html>
     <head>
         <link rel="stylesheet" href="css/estudiantecss.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">    </head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"> 
+    </head>
     <body>
         <div class="cerrar-sesion">
             <a href="LoginServlet?action=salir">Cerrar Sesión</a>
@@ -50,7 +51,12 @@
                         <a href="EstudianteServlet?action=eliminar&id=<%= estudiante.getId() %> " title="Eliminar"><i class="bi bi-trash3"></i></a>
                     </td>
                 </tr>
-                <% } %>
+
+                <% }
+                Boolean borrado = (Boolean)request.getAttribute("borrado");
+                if(borrado != null && borrado){%>
+                <h3>Registro eliminado</h3>
+                <%}%>
 
             </table>
         </div>

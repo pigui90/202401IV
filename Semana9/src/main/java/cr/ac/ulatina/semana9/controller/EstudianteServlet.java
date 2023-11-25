@@ -38,7 +38,6 @@ public class EstudianteServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.setAttribute("listaEstudiantes", findAllEstudiantes());
         String action = request.getParameter("action");
         if (action != null) {
             if (action.equals("agregar")) {
@@ -54,14 +53,33 @@ public class EstudianteServlet extends HttpServlet {
                     estudiante.setEdad(edad);
                     estudiante.setFechaIngreso(fechaIngreso);
                     estudianteJDBC.save(estudiante);
+                    session.setAttribute("listaEstudiantes", findAllEstudiantes());
+
                     request.getRequestDispatcher("estudiantePrincipal.jsp").forward(request, response);
-                }else{
-                     if (action.equals("eliminar")) {
-                         
-                     }
+                } else {
+                    if (action.equals("eliminar")) {
+                        int id = Integer.parseInt(request.getParameter("id"));
+                        boolean flag = estudianteJDBC.delete(id);
+                        if (flag) {
+                            request.setAttribute("borrado", true);
+                        }
+                        session.setAttribute("listaEstudiantes", findAllEstudiantes());
+
+                        request.getRequestDispatcher("estudiantePrincipal.jsp").forward(request, response);
+
+                    } else {
+                        if (action.equals("editar")) {
+
+                        } else {
+                            if (action.equals("view")) {
+
+                            }
+                        }
+                    }
                 }
             }
         } else {
+            session.setAttribute("listaEstudiantes", findAllEstudiantes());
 
             request.getRequestDispatcher("estudiantePrincipal.jsp").forward(request, response);
         }
