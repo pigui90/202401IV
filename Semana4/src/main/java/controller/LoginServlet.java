@@ -105,7 +105,8 @@ public class LoginServlet extends HttpServlet {
                     if (!archivo.exists()) {
                         archivo.createNewFile();
                     } else {
-                        try (FileWriter fileWriter = new FileWriter(archivo, true); BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+                        try (FileWriter fileWriter = new FileWriter(archivo, true);
+                                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
                             String passEncrip = convertirdorHexMD5(pass);
                             bufferedWriter.write(user + ";" + passEncrip);
                             bufferedWriter.newLine();
