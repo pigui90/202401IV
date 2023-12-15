@@ -4,6 +4,7 @@
  */
 package cr.ac.ulatina.semana9.controller;
 
+import cr.ac.ulatina.semana9.model.DatosXML;
 import cr.ac.ulatina.semana9.model.Usuario;
 import cr.ac.ulatina.semana9.model.UsuarioJDBC;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -39,6 +43,7 @@ public class LoginServlet extends HttpServlet {
         try {
             String inicio = (String) request.getParameter("inicio");
             String register = (String) request.getParameter("register");
+            String webService = (String) request.getParameter("webService");
             String action = (String) request.getParameter("action");
             String email = (String) request.getParameter("email");
             String pass = (String) request.getParameter("password");
@@ -54,12 +59,19 @@ public class LoginServlet extends HttpServlet {
 
             } else {
                 if (inicio != null) {
-                    
+
                     if (buscarUsuario(email, pass)) {
                         request.getRequestDispatcher("bienvenida.jsp").forward(request, response);
                     } else {
                         request.setAttribute("inicioSesion", false);
                         request.getRequestDispatcher("login.jsp").forward(request, response);
+                    }
+                } else {
+                    if (webService != null) {
+                        request.setAttribute("salida", webService());
+//                        request.setAttribute("salida", webServiceXml());
+                        request.getRequestDispatcher("login.jsp").forward(request, response);
+
                     }
                 }
             }
@@ -141,5 +153,51 @@ public class LoginServlet extends HttpServlet {
 
         }
         return hexString.toString();
+    }
+
+    public String webService() {
+        String nombre = "Sergio";
+//        String baseUrl = "http://localhost:28029/WebService/api/saludo";
+        String baseUrl = "http://localhost:28029/WebService/api/saludo/" + nombre;
+        String salida = "";
+        // Crea un cliente JAX-RS
+        Client client = ClientBuilder.newClient();
+
+        try {
+            // Realiza una solicitud GET al recurso del servicio web y obtiene la respuesta como String
+            String respuesta = client.target(baseUrl)
+                    .request(MediaType.TEXT_PLAIN)
+                    .get(String.class);
+
+            // Imprime la respuesta
+            salida = "Respuesta del servicio web: " + respuesta;
+        } finally {
+            // Cierra el cliente
+            client.close();
+        }
+        return salida;
+    }
+
+    public String webServiceXml() {
+        String baseUrl = "http://localhost:8080/WebService/api/xml";
+
+        String salida = "";
+        // Crea un cliente JAX-RS
+        Client client = ClientBuilder.newClient();
+
+        try {
+            // Realiza una solicitud GET al recurso del servicio web y obtiene la respuesta como String
+            DatosXML datosXml = client.target(baseUrl)
+                    .request(MediaType.APPLICATION_XML)
+                    .get(DatosXML.class);
+
+            // Imprime la respuesta
+            salida = "Respuesta del servicio web: " + "\nNombre: " + datosXml.getNombre() + "\nEdad: " + datosXml.getEdad();
+        } finally {
+            // Cierra el cliente
+            client.close();
+        }
+        return salida;
+
     }
 }

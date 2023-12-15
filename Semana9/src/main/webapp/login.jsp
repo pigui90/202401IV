@@ -31,7 +31,11 @@
                 <div>
                     <button type="submit" id="register" name="register">Registrar</button>
                 </div>
+                <div>
+                    <button type="submit" id="webService" name="webService">WebService</button>
+                </div>
             </form>
+
             <div>
                 <% 
                 Boolean flagRegistro = (Boolean)session.getAttribute("registro");
@@ -46,6 +50,15 @@
                 Boolean flagInicioSesion = (Boolean)request.getAttribute("inicioSesion");
                 if(flagInicioSesion != null && !flagInicioSesion){
                 %><h2>Usuario/Contraseña incorrecto</h2>
+                <%
+                }
+                %>
+            </div>
+            <div>
+                <% 
+                String salida = (String)request.getAttribute("salida");
+                if(salida != null && !salida.isEmpty()){
+                %><h2><%=salida%></h2>
                 <%
                 }
                 %>
