@@ -15,8 +15,10 @@
     <body>
         <h1>Hello World!</h1>
         <% String usuario = (String)session.getAttribute("usuario");%>
+        
         <% Date fecha = (Date)session.getAttribute("fechaSession");%>
         <h2>Bienvenido <%=usuario %></h2>
         <h3>Fecha sesion <%=fecha %></h3>
+        <a href="InicioSesionServlet?cerrarSesion=true">Cerrar Sesion</a>
     </body>
 </html>

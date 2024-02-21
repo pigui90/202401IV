@@ -21,6 +21,8 @@ import java.util.Date;
 @WebServlet(name = "InicioSesionServlet", urlPatterns = {"/InicioSesionServlet"})
 public class InicioSesionServlet extends HttpServlet {
 
+    int id = 0;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,20 +34,27 @@ public class InicioSesionServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String cerrarSesion = request.getParameter("cerrarSesion");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String usuario = "admin";
         String pass = "admin";
-        if(usuario.equals(username) 
-                && pass.equals(password)){
-            HttpSession session = request.getSession();
-            session.setAttribute("usuario", usuario);
+        if(cerrarSesion!=null){
+            session.invalidate();
+            response.sendRedirect("inicioSesion.jsp");
+        }
+        if (usuario.equals(username)
+                && pass.equals(password)) {     
+//            session.setAttribute("usuario", usuario);
             session.setAttribute("fechaSession", new Date());
-            //request.getRequestDispatcher("principal.jsp").forward(request, response);
+            id++;
+            session.setAttribute("usuario", "usuario_" + id);
+//request.getRequestDispatcher("principal.jsp").forward(request, response);
             response.sendRedirect("principal.jsp");
         }
-        
-    }   
+
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -59,7 +68,7 @@ public class InicioSesionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         processRequest(request, response);
     }
 
