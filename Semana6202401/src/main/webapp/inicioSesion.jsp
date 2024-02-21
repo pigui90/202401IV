@@ -65,7 +65,9 @@
             <input type="text" id="username" name="username"><br><br>
             <label for="password">Contraseña:</label>
             <input type="password" id="password" name="password"><br><br>
-            <input type="submit" value="Iniciar sesión">
+            <input type="submit" name="inicioSesion" value="Iniciar sesión">
+            <input type="submit" name="registrarse" value="Registrarse">
         </form>
+        
     </body>
 </html>
