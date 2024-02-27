@@ -51,7 +51,8 @@ public class InicioSesionServlet extends HttpServlet {
             usuario.setNombre(username);
             usuario.setPassword(password);
             usuarios.add(usuario);
-            response.sendRedirect("inicioSesion.jsp");
+            request.setAttribute("error", "false");
+            request.getRequestDispatcher("inicioSesion.jsp").forward(request, response);
         }
         
         if (cerrarSesion != null) {
@@ -68,6 +69,8 @@ public class InicioSesionServlet extends HttpServlet {
 //request.getRequestDispatcher("principal.jsp").forward(request, response);
                 response.sendRedirect("principal.jsp");
             } else {
+                request.setAttribute("error", "true");
+            request.getRequestDispatcher("inicioSesion.jsp").forward(request, response);
                 response.sendRedirect("inicioSesion.jsp");
             }
         }

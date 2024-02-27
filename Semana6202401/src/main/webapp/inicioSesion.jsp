@@ -68,6 +68,8 @@
             <input type="submit" name="inicioSesion" value="Iniciar sesión">
             <input type="submit" name="registrarse" value="Registrarse">
         </form>
+        <% String error = (String)session.getAttribute("error"); %>
+        <h1></h1>
         
     </body>
 </html>
