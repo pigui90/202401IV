@@ -11,50 +11,27 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Iniciar sesión</title>
         <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-            }
-            .login-container {
-                background-color: #fff;
-                border-radius: 8px;
-                padding: 20px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            }
             h2 {
-                text-align: center;
-                margin-bottom: 20px;
+                color: #333; /* Color del texto de los encabezados */
             }
+
             label {
-                display: block;
-                margin-bottom: 10px;
+                display: block; /* Mostrar cada etiqueta en una línea separada */
+                margin-bottom: 5px; /* Espacio entre etiquetas */
             }
+
             input[type="text"],
-            input[type="password"] {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 20px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                box-sizing: border-box;
-            }
+            input[type="password"],
             input[type="submit"] {
-                width: 100%;
-                padding: 10px;
-                background-color: #007bff;
-                color: #fff;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
+                margin-bottom: 10px; /* Espacio entre campos de entrada y botones */
             }
-            input[type="submit"]:hover {
-                background-color: #0056b3;
+
+            .exito {
+                color: blue; /* Color del mensaje de éxito */
+            }
+
+            .error {
+                color: red; /* Color del mensaje de error */
             }
         </style>
     </head>
@@ -68,8 +45,14 @@
             <input type="submit" name="inicioSesion" value="Iniciar sesión">
             <input type="submit" name="registrarse" value="Registrarse">
         </form>
-        <% String error = (String)session.getAttribute("error"); %>
-        <h1></h1>
-        
+        <% Boolean exito = (Boolean)session.getAttribute("exito"); %>
+        <%if(exito != null && exito){%>
+        <h2  class="exito">Registro con exito! </h2>
+        <%}%>
+        <% Boolean error = (Boolean)session.getAttribute("error"); %>
+        <%if(error != null && error){%>
+        <h2  class="error">Usuario/Contraseña incorrecta! </h2>
+        <%}%>
+
     </body>
 </html>
