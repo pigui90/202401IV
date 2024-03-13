@@ -38,8 +38,9 @@ public class ConexionBD {
 //            String url = "jdbc:sqlserver://" + host + ":1433;databaseName=" + bd + ";integratedSecurity=true";
 //            String dir2 = "jdbc:sqlserver://" + host + ":1433;databaseName=" + bd;
 
-            //con = DriverManager.getConnection(dir2, user, password); // SQL SERVER
-            con = DriverManager.getConnection(dir); // MySql
+            con = DriverManager.getConnection(dir, user, password); // My SQL
+//            con = DriverManager.getConnection(dir2, user, password); // My SQL
+            //con = DriverManager.getConnection(url); // SQL
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
