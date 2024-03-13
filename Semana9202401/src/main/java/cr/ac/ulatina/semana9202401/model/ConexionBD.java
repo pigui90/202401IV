@@ -49,4 +49,26 @@ public class ConexionBD {
         }
 
     }
+
+    public static ConexionBD getConexionBD() {
+        if (conexionBD == null) {
+            synchronized (ConexionBD.class) {
+                if (conexionBD == null) {
+                    conexionBD = new ConexionBD();
+                }
+            }
+        }
+        return conexionBD;
+    }
+    public Connection getCon() {
+        return con;
+    }
+
+    public void closeConexion() {
+        try {
+            con.close();
+        } catch (SQLException e) {
+
+        }
+    }
 }
