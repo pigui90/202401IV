@@ -5,6 +5,8 @@
 package cr.ac.ulatina.semana9202401.model;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,9 +35,15 @@ public class ConexionBD {
             driver = "com.mysql.cj.jdbc.Driver";
             Class.forName(driver);
             String dir = "jdbc:mysql://" + host + ":3306/" + bd + "?" + "autoReconnect=true&useSSL=false";
-            String url = "jdbc:sqlserver://" + host + ":1433;databaseName=" + bd + ";integratedSecurity=true";
-            String dir2 = "jdbc:sqlserver://" + host + ":1433;databaseName=" + bd;
+//            String url = "jdbc:sqlserver://" + host + ":1433;databaseName=" + bd + ";integratedSecurity=true";
+//            String dir2 = "jdbc:sqlserver://" + host + ":1433;databaseName=" + bd;
+
+            //con = DriverManager.getConnection(dir2, user, password); // SQL SERVER
+            con = DriverManager.getConnection(dir); // MySql
+
         } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(ConexionBD.class.getName()).log(Level.SEVERE, null, ex);
         }
 
