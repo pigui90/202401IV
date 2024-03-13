@@ -4,20 +4,29 @@
  */
 package cr.ac.ulatina.semana9202401.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Sergio
  */
 public class Usuario {
-    private int idUsuario;
+
+    private long idUsuario;
     private String email;
     private String password;
 
-    public int getIdUsuario() {
+    public long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(long idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -36,6 +45,33 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
+
+    public void save(Usuario usuario) {
+        try {
+            ConexionBD conexionBD = ConexionBD.getConexionBD();
+            Connection con = conexionBD.getCon();
+
+            String sql = "INSERT INTO USUARIO (email, password) VALUES (?,?)";
+
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, usuario.getEmail());
+            ps.setString(2, usuario.getPassword());
+
+            int rowcount = ps.executeUpdate();
+            if (rowcount == 1) {
+                ResultSet rs = ps.getGeneratedKeys();
+                while (rs.next()) {
+                    usuario.setIdUsuario(rs.getLong(1));
+                }
+            } else {
+                throw new SQLException("El 'insert' no ocurrio, valor de: " + rowcount);
+            }
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("ERROR:" + ex.getMessage());
+        }
+
+    }
+
 }

@@ -4,6 +4,7 @@
  */
 package cr.ac.ulatina.semana9202401.controller;
 
+import cr.ac.ulatina.semana9202401.model.ConexionBD;
 import cr.ac.ulatina.semana9202401.model.Usuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -55,11 +56,10 @@ public class InicioSesionServlet extends HttpServlet {
             usuario = new Usuario();
             usuario.setEmail(email);
             usuario.setPassword(convertirHexMD5(password));
-            usuarios.add(usuario);
-            session.setAttribute("list", usuarios);
             session.setAttribute("exito", true);
             session.setAttribute("error", false);
-
+            usuario.save(usuario);
+            
             response.sendRedirect("inicioSesion.jsp");
 
         } else {
