@@ -43,10 +43,7 @@ public class InicioSesionServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         usuarios = (List) session.getAttribute("list");
-        if (usuarios == null) {
-            session.setAttribute("list", new ArrayList<>());
-            usuarios = (List) session.getAttribute("list");
-        }
+      
         String registrarse = request.getParameter("registrarse");
         String inicioSesion = request.getParameter("inicioSesion");
         String password = request.getParameter("password");
@@ -59,25 +56,21 @@ public class InicioSesionServlet extends HttpServlet {
             session.setAttribute("exito", true);
             session.setAttribute("error", false);
             usuario.save(usuario);
-            
+
             response.sendRedirect("inicioSesion.jsp");
 
         } else {
             if (inicioSesion != null) {
-                for (Usuario user : usuarios) {
-                    if (user.getEmail().equals(email)) {
-                        passEncrypt = convertirHexMD5(password);
-                        if (user.getPassword().equals(passEncrypt)) {
-                            session.setAttribute("usuario", user.getEmail());
-                            request.getRequestDispatcher("principal.jsp").forward(request, response);
-                        }
-                    }
+                passEncrypt = convertirHexMD5(password);
+                usuario = new Usuario();
+                if (usuario.buscarUsuario(email, passEncrypt)) {
+                    request.getRequestDispatcher("listaEstudiantes.jsp").forward(request, response);
+                } else {
+                    session.setAttribute("exito", false);
+
+                    session.setAttribute("error", true);
+                    response.sendRedirect("inicioSesion.jsp");
                 }
-                session.setAttribute("exito", false);
-
-                session.setAttribute("error", true);
-                response.sendRedirect("inicioSesion.jsp");
-
             }
         }
     }

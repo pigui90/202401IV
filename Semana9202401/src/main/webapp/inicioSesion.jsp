@@ -24,7 +24,8 @@
                     <label for="password">Contraseña:</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                <button type="submit">Ingresar</button>
+                <input type="submit" name="inicioSesion" value="Iniciar sesión">
+                <input type="submit" name="registrarse" value="Registrarse">
             </form>
         </div>
         <% Boolean exito = (Boolean)session.getAttribute("exito"); %>

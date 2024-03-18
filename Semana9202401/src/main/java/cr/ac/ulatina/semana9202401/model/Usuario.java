@@ -74,4 +74,44 @@ public class Usuario {
 
     }
 
+    public boolean buscarUsuario(String email, String pass) {
+        try {
+            ConexionBD conexionBD = ConexionBD.getConexionBD();
+            Connection con = conexionBD.getCon();
+
+            Usuario usuario = null;
+            String sql = "SELECT * FROM USUARIO u WHERE u.email = ? and u.password = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, email);
+            ps.setString(2, pass);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                usuario = establecerUsuario(rs);
+                break;
+            }
+            con.close();
+
+            return usuario != null;
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    private Usuario establecerUsuario(ResultSet rs) {
+        try {
+            Usuario usuario = new Usuario();
+
+            usuario.setIdUsuario(rs.getLong(1));
+            usuario.setEmail(rs.getString(2));
+            usuario.setPassword(rs.getString(3));
+            return usuario;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }
