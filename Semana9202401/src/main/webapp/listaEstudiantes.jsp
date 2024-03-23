@@ -13,14 +13,14 @@
     </head>
     <body>
         <div class="cerrar-sesion">
-            <a href="LoginServlet?action=salir">Cerrar Sesión</a>
+            <a href="InicioSesionServlet?action=salir">Cerrar Sesión</a>
         </div>
         <div class="banner">
             <h1>Bienvenido a Mi Aplicación</h1>
         </div>
         <div class="menu">
             <ul>
-                <li><a href="EstudianteServlet">Lista de Estudiantes</a></li>
+                <li><a href="listaEstudiantes.jsp">Lista de Estudiantes</a></li>
                 <li><a href="#">Opción 2</a></li>
                 <li><a href="#">Opción 3</a></li>
             </ul>

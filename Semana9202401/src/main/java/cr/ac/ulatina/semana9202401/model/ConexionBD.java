@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class ConexionBD {
 
     static ConexionBD conexionBD;
-    Connection con = null;
+    private Connection con = null;
     String host;
     String user;
     String password;

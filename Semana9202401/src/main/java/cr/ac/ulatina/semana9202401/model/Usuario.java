@@ -66,7 +66,7 @@ public class Usuario {
             } else {
                 throw new SQLException("El 'insert' no ocurrio, valor de: " + rowcount);
             }
-            con.close();
+            //con.close();
         } catch (SQLException ex) {
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
             System.err.println("ERROR:" + ex.getMessage());
@@ -90,7 +90,7 @@ public class Usuario {
                 usuario = establecerUsuario(rs);
                 break;
             }
-            con.close();
+           // con.close();
 
             return usuario != null;
         } catch (SQLException ex) {
