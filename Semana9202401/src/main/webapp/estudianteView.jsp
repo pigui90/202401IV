@@ -22,7 +22,7 @@
         </div>
         <div class="menu">
             <ul>
-                <li><a href="EstudianteServlet">Lista de Estudiantes</a></li>
+            <a href="EstudianteServlet?list=list" title="Lista Estudiantes">Lista Estudiantes</a>
                 <li><a href="#">Opción 2</a></li>
                 <li><a href="#">Opción 3</a></li>
             </ul>

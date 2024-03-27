@@ -42,6 +42,7 @@ public class EstudianteServlet extends HttpServlet {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String action = request.getParameter("action");
         String agregar = request.getParameter("agregar");
+        String list = request.getParameter("list");
 
         if (action != null) {
             if (action.equals("agregar")) {
@@ -66,6 +67,16 @@ public class EstudianteServlet extends HttpServlet {
                         String fechaFormateada = estudiante.getFechaIngreso().format(formatter);
                         request.setAttribute("fechaIngreso", fechaFormateada);
                         request.getRequestDispatcher("estudianteView.jsp").forward(request, response);
+                    } else {
+                        if (action.equals("view")) {
+                            int id = Integer.parseInt(request.getParameter("id"));
+                            Estudiante estudiante = estudianteJDBC.findById(id);
+                            request.setAttribute("nombre", estudiante.getNombre());
+                            request.setAttribute("edad", String.valueOf(estudiante.getEdad()));
+                            String fechaFormateada = estudiante.getFechaIngreso().format(formatter);
+                            request.setAttribute("fechaIngreso", fechaFormateada);
+                            request.getRequestDispatcher("estudianteEdit.jsp").forward(request, response);
+                        }
                     }
                 }
             }
@@ -87,6 +98,10 @@ public class EstudianteServlet extends HttpServlet {
                     request.getRequestDispatcher("formularioEstudiante.jsp").forward(request, response);
                 }
             }
+        }
+        if (list != null) {
+            request.getRequestDispatcher("listaEstudiantes.jsp").forward(request, response);
+
         }
 
     }

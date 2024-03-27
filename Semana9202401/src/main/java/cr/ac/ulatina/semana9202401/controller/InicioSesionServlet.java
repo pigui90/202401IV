@@ -42,8 +42,8 @@ public class InicioSesionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        EstudianteJDBC estudianteJDBC = new EstudianteJDBC();
-        session.setAttribute("listaEstudiantes", estudianteJDBC.findAll());
+        //EstudianteJDBC estudianteJDBC = new EstudianteJDBC();
+       // session.setAttribute("listaEstudiantes", estudianteJDBC.findAll());
 
         String registrarse = request.getParameter("registrarse");
         String inicioSesion = request.getParameter("inicioSesion");
@@ -74,8 +74,9 @@ public class InicioSesionServlet extends HttpServlet {
                 usuario = new Usuario();
                 usuario = usuario.buscarUsuario(email, passEncrypt);
                 if (usuario != null) {
+                    session.setAttribute("user", usuario);
                     session.setAttribute("rol", usuario.getRol());
-                    request.getRequestDispatcher("listaEstudiantes.jsp").forward(request, response);
+                    request.getRequestDispatcher("principal.jsp").forward(request, response);
                 } else {
                     session.setAttribute("exito", false);
 

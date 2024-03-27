@@ -29,23 +29,27 @@
         </div>
 
         <div class="contenido-principal">
-            <h1>Formulario Estudiante</h1>
+            <h1>Formulario Estudiante Vista</h1>
+            <% 
+                String nombre = (String) request.getAttribute("nombre");
+                String edad = (String) request.getAttribute("edad");
+                String fechaIngreso = (String) request.getAttribute("fechaIngreso");
+            %>
+
             <form action="EstudianteServlet" method="POST">
                 <div class="campo">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required>
+                    <input type="text" name="nombre" value="<%= request.getAttribute("nombre") %>"><br>                
                 </div>
                 <div class="campo">
                     <label for="edad">Edad:</label>
-                    <input type="number" id="edad" name="edad" required>
+                    <input type="number" name="edad" value="<%= request.getAttribute("edad") %>"><br>                
                 </div>
                 <div class="campo">
                     <label for="fechaIngreso">Fecha de Ingreso:</label>
-                    <input type="date" id="fechaIngreso" name="fechaIngreso" required>
+                    <input type="date" name="fechaIngreso" value="<%= request.getAttribute("fechaIngreso") %>"><br>                
                 </div>
-                <div class="campo">
-                    <button type="submit" name="agregar">Agregar</button>
-                </div>
+
             </form>
         </div>
     </body>
