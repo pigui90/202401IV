@@ -42,9 +42,7 @@ public class InicioSesionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        //EstudianteJDBC estudianteJDBC = new EstudianteJDBC();
-       // session.setAttribute("listaEstudiantes", estudianteJDBC.findAll());
-
+ 
         String registrarse = request.getParameter("registrarse");
         String inicioSesion = request.getParameter("inicioSesion");
         String password = request.getParameter("password");
