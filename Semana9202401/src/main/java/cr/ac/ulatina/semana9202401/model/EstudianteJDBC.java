@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.StampedLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,6 +71,37 @@ public class EstudianteJDBC {
             System.err.println(ex.getMessage());
         }
         return estudiantes;
+    }
+
+    public Estudiante findById(int id) {
+        Estudiante estudiante = new Estudiante();
+        try {
+            String sql = "SELECT * FROM estudiante e where e.id = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                return establecerEstudiante(rs);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return estudiante;
+    }
+
+    public Boolean eliminar(int id) {
+        try {
+            String sql = "DELETE FROM ESTUDIANTE e WHERE e.id = ?";
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, id);
+            int rowcount = ps.executeUpdate();
+            return rowcount == 1;
+        } catch (SQLException ex) {
+            Logger.getLogger(EstudianteJDBC.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Boolean.FALSE;
+
     }
 
     private Estudiante establecerEstudiante(ResultSet rs) {

@@ -21,6 +21,7 @@ public class Usuario {
     private long idUsuario;
     private String email;
     private String password;
+    private String rol;
 
     public long getIdUsuario() {
         return idUsuario;
@@ -46,16 +47,25 @@ public class Usuario {
         this.password = password;
     }
 
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
     public void save(Usuario usuario) {
         try {
             ConexionBD conexionBD = ConexionBD.getConexionBD();
             Connection con = conexionBD.getCon();
 
-            String sql = "INSERT INTO USUARIO (email, password) VALUES (?,?)";
+            String sql = "INSERT INTO USUARIO (email, password, rol) VALUES (?,?,?)";
 
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, usuario.getEmail());
             ps.setString(2, usuario.getPassword());
+            ps.setString(3, usuario.getRol());
 
             int rowcount = ps.executeUpdate();
             if (rowcount == 1) {
@@ -74,12 +84,12 @@ public class Usuario {
 
     }
 
-    public boolean buscarUsuario(String email, String pass) {
+    public Usuario buscarUsuario(String email, String pass) {
+        Usuario usuario = null;
         try {
             ConexionBD conexionBD = ConexionBD.getConexionBD();
             Connection con = conexionBD.getCon();
 
-            Usuario usuario = null;
             String sql = "SELECT * FROM USUARIO u WHERE u.email = ? and u.password = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, email);
@@ -87,16 +97,14 @@ public class Usuario {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                usuario = establecerUsuario(rs);
-                break;
+                return establecerUsuario(rs);
             }
-           // con.close();
+            // con.close();
 
-            return usuario != null;
         } catch (SQLException ex) {
             Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return usuario;
     }
 
     private Usuario establecerUsuario(ResultSet rs) {
@@ -106,6 +114,7 @@ public class Usuario {
             usuario.setIdUsuario(rs.getLong(1));
             usuario.setEmail(rs.getString(2));
             usuario.setPassword(rs.getString(3));
+            usuario.setRol(rs.getString(4));
             return usuario;
 
         } catch (SQLException ex) {

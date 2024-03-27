@@ -39,15 +39,38 @@ public class EstudianteServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.setAttribute("listaEstudiantes", findAllEstudiantes());
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String action = request.getParameter("action");
         String agregar = request.getParameter("agregar");
 
-        if (action != null && action.equals("agregar")) {
-            request.setAttribute("agregar", true);
-            request.getRequestDispatcher("formularioEstudiante.jsp").forward(request, response);
+        if (action != null) {
+            if (action.equals("agregar")) {
+                request.setAttribute("agregar", true);
+                request.getRequestDispatcher("formularioEstudiante.jsp").forward(request, response);
+            } else {
+                if (action.equals("eliminar")) {
+                    int id = Integer.parseInt(request.getParameter("id"));
+                    boolean eliminado = estudianteJDBC.eliminar(id);
+                    if (eliminado) {
+                        session.setAttribute("listaEstudiantes", findAllEstudiantes());
+                        request.setAttribute("borrado", true);
+                    }
+                    request.getRequestDispatcher("listaEstudiantes.jsp").forward(request, response);
+
+                } else {
+                    if (action.equals("view")) {
+                        int id = Integer.parseInt(request.getParameter("id"));
+                        Estudiante estudiante = estudianteJDBC.findById(id);
+                        request.setAttribute("nombre", estudiante.getNombre());
+                        request.setAttribute("edad", String.valueOf(estudiante.getEdad()));
+                        String fechaFormateada = estudiante.getFechaIngreso().format(formatter);
+                        request.setAttribute("fechaIngreso", fechaFormateada);
+                        request.getRequestDispatcher("estudianteView.jsp").forward(request, response);
+                    }
+                }
+            }
         } else {
+
             if (agregar != null) {
                 String nombre = request.getParameter("nombre");
                 int edad = Integer.parseInt(request.getParameter("edad"));

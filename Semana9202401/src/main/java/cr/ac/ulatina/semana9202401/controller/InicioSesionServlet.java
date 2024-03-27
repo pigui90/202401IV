@@ -48,6 +48,7 @@ public class InicioSesionServlet extends HttpServlet {
         String registrarse = request.getParameter("registrarse");
         String inicioSesion = request.getParameter("inicioSesion");
         String password = request.getParameter("password");
+        String rol = request.getParameter("rol");
         String email = request.getParameter("email");
         String action = request.getParameter("action");
         String passEncrypt = "";
@@ -60,6 +61,7 @@ public class InicioSesionServlet extends HttpServlet {
             usuario = new Usuario();
             usuario.setEmail(email);
             usuario.setPassword(convertirHexMD5(password));
+            usuario.setRol(rol);
             session.setAttribute("exito", true);
             session.setAttribute("error", false);
             usuario.save(usuario);
@@ -70,7 +72,9 @@ public class InicioSesionServlet extends HttpServlet {
             if (inicioSesion != null) {
                 passEncrypt = convertirHexMD5(password);
                 usuario = new Usuario();
-                if (usuario.buscarUsuario(email, passEncrypt)) {
+                usuario = usuario.buscarUsuario(email, passEncrypt);
+                if (usuario != null) {
+                    session.setAttribute("rol", usuario.getRol());
                     request.getRequestDispatcher("listaEstudiantes.jsp").forward(request, response);
                 } else {
                     session.setAttribute("exito", false);

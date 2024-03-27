@@ -24,6 +24,10 @@
                     <label for="password">Contraseña:</label>
                     <input type="password" id="password" name="password" required>
                 </div>
+                <div class="form-group">
+                    <label for="rol">Rol:</label>
+                    <input type="text" id="rol" name="rol" required>
+                </div>
                 <input type="submit" name="inicioSesion" value="Iniciar sesión">
                 <input type="submit" name="registrarse" value="Registrarse">
             </form>

@@ -38,6 +38,7 @@
                 </tr>
 
                 <% 
+                    String rol = (String) session.getAttribute("rol");
                     List<Estudiante> listaEstudiantes = (List<Estudiante>) session.getAttribute("listaEstudiantes");
                     for (Estudiante estudiante : listaEstudiantes) {
                 %>
@@ -48,8 +49,8 @@
                     <td><%= estudiante.getFechaIngreso() %></td>
                     <td>
                         <a href="EstudianteServlet?action=view&id=<%= estudiante.getId() %> " title="Vista"><i class="bi bi-binoculars"></i></i></i></a>
-                        <a href="EstudianteServlet?action=editar&id=<%= estudiante.getId() %> " title="Editar"><i class="bi bi-pencil"></i></i></a>
-                        <a href="EstudianteServlet?action=eliminar&id=<%= estudiante.getId() %> " title="Eliminar"><i class="bi bi-trash3"></i></a>
+                        <% if(rol.equals("A")){%> <a href="EstudianteServlet?action=editar&id=<%= estudiante.getId() %> " title="Editar"><i class="bi bi-pencil"></i></i></a><% }%>
+                        <% if(rol.equals("A")){%><a href="EstudianteServlet?action=eliminar&id=<%= estudiante.getId() %> " title="Eliminar"><i class="bi bi-trash3"></i></a><% }%>
                     </td>
                 </tr>
 
