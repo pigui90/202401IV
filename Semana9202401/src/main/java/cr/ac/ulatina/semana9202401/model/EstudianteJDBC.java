@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +19,7 @@ import java.util.logging.Logger;
  * @author Sergio
  */
 public class EstudianteJDBC {
+
     ConexionBD conexionBD;
     Connection con;
 
@@ -24,12 +27,11 @@ public class EstudianteJDBC {
         conexionBD = ConexionBD.getConexionBD();
         con = conexionBD.getCon();
     }
-    
-    
-    public Boolean agregarEstudiante(Estudiante estudiante){
+
+    public Boolean agregarEstudiante(Estudiante estudiante) {
         try {
             String sql = "INSERT INTO ESTUDIANTE (nombre, edad, fechaIngreso) VALUES (?,?,?)";
-            
+
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, estudiante.getNombre());
             ps.setInt(2, estudiante.getEdad());
@@ -42,7 +44,7 @@ public class EstudianteJDBC {
                     estudiante.setId(rs.getLong(1));
                     return true;
                 }
-                
+
             } else {
                 throw new SQLException("El 'insert' no ocurrio, valor de: " + rowcount);
             }
@@ -52,5 +54,37 @@ public class EstudianteJDBC {
         }
         return false;
     }
-    
+
+    public List<Estudiante> findAll() {
+        List<Estudiante> estudiantes = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM estudiante e";
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                estudiantes.add(establecerEstudiante(rs));
+            }
+            return estudiantes;
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return estudiantes;
+    }
+
+    private Estudiante establecerEstudiante(ResultSet rs) {
+        Estudiante estudiante = new Estudiante();
+        try {
+            estudiante.setId(rs.getLong(1));
+            estudiante.setNombre(rs.getString(2));
+            estudiante.setEdad(rs.getInt(3));
+            estudiante.setFechaIngreso(rs.getDate(4).toLocalDate());
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return estudiante;
+
+    }
+
 }

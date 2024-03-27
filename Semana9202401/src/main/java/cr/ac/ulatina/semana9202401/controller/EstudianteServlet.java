@@ -11,9 +11,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  *
@@ -21,6 +23,8 @@ import java.time.format.DateTimeFormatter;
  */
 @WebServlet(name = "EstudianteServlet", urlPatterns = {"/EstudianteServlet"})
 public class EstudianteServlet extends HttpServlet {
+
+    EstudianteJDBC estudianteJDBC = new EstudianteJDBC();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,6 +37,9 @@ public class EstudianteServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.setAttribute("listaEstudiantes", findAllEstudiantes());
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String action = request.getParameter("action");
         String agregar = request.getParameter("agregar");
@@ -51,6 +58,7 @@ public class EstudianteServlet extends HttpServlet {
                 estudiante.setEdad(edad);
                 estudiante.setFechaIngreso(fechaIngreso);
                 if (estudianteJDBC.agregarEstudiante(estudiante)) {
+                    session.setAttribute("listaEstudiantes", findAllEstudiantes());
                     request.getRequestDispatcher("listaEstudiantes.jsp").forward(request, response);
                 } else {
                     request.getRequestDispatcher("formularioEstudiante.jsp").forward(request, response);
@@ -58,6 +66,11 @@ public class EstudianteServlet extends HttpServlet {
             }
         }
 
+    }
+
+    public List<Estudiante> findAllEstudiantes() {
+        List<Estudiante> estudiantes = estudianteJDBC.findAll();
+        return estudiantes;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

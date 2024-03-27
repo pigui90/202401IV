@@ -5,6 +5,7 @@
 package cr.ac.ulatina.semana9202401.controller;
 
 import cr.ac.ulatina.semana9202401.model.ConexionBD;
+import cr.ac.ulatina.semana9202401.model.EstudianteJDBC;
 import cr.ac.ulatina.semana9202401.model.Usuario;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -27,7 +28,6 @@ import java.util.logging.Logger;
 @WebServlet(name = "InicioSesionServlet", urlPatterns = {"/InicioSesionServlet"})
 public class InicioSesionServlet extends HttpServlet {
 
-    List<Usuario> usuarios = new ArrayList<>();
     Usuario usuario;
 
     /**
@@ -42,7 +42,8 @@ public class InicioSesionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        usuarios = (List) session.getAttribute("list");
+        EstudianteJDBC estudianteJDBC = new EstudianteJDBC();
+        session.setAttribute("listaEstudiantes", estudianteJDBC.findAll());
 
         String registrarse = request.getParameter("registrarse");
         String inicioSesion = request.getParameter("inicioSesion");
